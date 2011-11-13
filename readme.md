@@ -17,6 +17,7 @@ This snippet support most of Jared's BreadCrumbs features :
 *   respectHidden (now as showHidden)
 *   showCrumbsAtHome
 *   showCurrentCrumb
+*   showHomeCrumb
 	
 And add new features : 
 
@@ -33,5 +34,4 @@ Some features of Jared's BreadCrumbs are missing but easily can be replaced by c
 *   homeCrumbDescription
 *   homeCrumbTitle
 *   maxDelimiter
-*   showHomeCrumb
 *   titleField

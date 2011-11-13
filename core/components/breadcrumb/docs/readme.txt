@@ -15,6 +15,7 @@ This snippet support most of Jared's BreadCrumbs features :
 	- respectHidden (now as showHidden)
 	- showCrumbsAtHome
 	- showCurrentCrumb
+	- showHomeCrumb
 	
 And add new features : 
 	- chunk as templates (properties &containerTpl, &currentCrumbTpl, &linkCrumbTpl, &maxCrumbTpl)
@@ -29,7 +30,6 @@ Some features of Jared's BreadCrumbs are missing but easily can be replaced by c
 	- homeCrumbDescription
 	- homeCrumbTitle
 	- maxDelimiter
-	- showHomeCrumb
 	- titleField
 
 Bugs and Feature Requests: https://github.com/omycode/breadcrumb
