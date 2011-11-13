@@ -1,5 +1,9 @@
 Changelog for BreadCrumb
 
+BreadCrumb 1.0.0-beta2
+-------------------
+Fix current resource checking when resourceId property specified
+
 BreadCrumb 1.0.0-beta1
 -------------------
 Initial Version

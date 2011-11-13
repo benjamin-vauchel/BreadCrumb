@@ -1,7 +1,7 @@
 --------------------
 Snippets: BreadCrumb
 --------------------
-Version: 1.0.0-beta1
+Version: 1.0.0-beta2
 Released: November 13, 2011
 Since: November 13, 2011
 Author: Benjamin Vauchel <contact@omycode.fr>

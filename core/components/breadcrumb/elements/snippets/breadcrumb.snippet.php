@@ -46,7 +46,7 @@
  */
 
 // Script Properties
-$resourceId = !empty($resourceId) ? $resourceId : $modx->resource->get('id');
+$resourceId = $currentResourceId = !empty($resourceId) ? $resourceId : $modx->resource->get('id');
 $maxCrumbs = !empty($maxCrumbs) ? abs(intval($maxCrumbs)) : 100;
 $showHidden = isset($showHidden) ? (bool)$showHidden : true;
 $showContainer = isset($showContainer) ? (bool)$showContainer : true;
@@ -82,7 +82,7 @@ while($resourceId != 0 && $crumbsCount < $maxCrumbs)
 		&& (($resource->get('hidemenu') && $showHidden) || !$resource->get('hidemenu'))										// ShowHidden
 		&& (($resource->get('isfolder') && $showContainer) || !$resource->get('isfolder'))									// ShowContainer
 		&& ((!$resource->get('published') && $showUnPub) || $resource->get('published')) 									// UnPub
-		&& (($resourceId == $modx->resource->get('id') && $showCurrentCrumb) || $resourceId != $modx->resource->get('id'))  // ShowCurrent
+		&& (($resourceId == $currentResourceId && $showCurrentCrumb) || $resourceId != $currentResourceId)  // ShowCurrent
 	)
 	{
 		// If is LTR direction, we push resource at the beginning of the array 
@@ -105,7 +105,7 @@ while($resourceId != 0 && $crumbsCount < $maxCrumbs)
 foreach($crumbs as $key => $resource)
 {	
 	// Current crumb tpl ?
-	if($showCurrentCrumb && ($resource->get('id') == $modx->resource->get('id')))
+	if($showCurrentCrumb && ($resource->get('id') == $currentResourceId))
 	{
 		$tpl = $currentCrumbTpl;
 	}
