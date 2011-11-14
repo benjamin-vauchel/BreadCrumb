@@ -35,6 +35,7 @@
  * @property showCurrentCrumb - (bool) Show current resource as a crumb; [Default value : true].
  * @property showBreadCrumbAtHome - (bool) Show BreadCrumb on the home page; [Default value : true].
  * @property showHomeCrumb - (bool) Show the home page as a crumb; [Default value : false].
+ * @property useWebLinkUrl - (bool) Use the weblink url instead of the url to the weblink; [Default value : true].
  * @property direction - (string) Direction or breadcrumb : Left To Right (ltr) or Right To Left (rtl) for Arabic language for example; [Default value : ltr].
  *
  * Templates :
@@ -54,6 +55,7 @@ $showUnPub = isset($showUnPub) ? (bool)$showUnPub : true;
 $showCurrentCrumb = isset($showCurrentCrumb) ? (bool)$showCurrentCrumb : true;
 $showBreadCrumbAtHome = isset($showBreadCrumbAtHome) ? (bool)$showBreadCrumbAtHome : true;
 $showHomeCrumb = isset($showHomeCrumb) ? (bool)$showHomeCrumb : false;
+$useWebLinkUrl = isset($useWebLinkUrl) ? (bool)$useWebLinkUrl : true;
 $direction = !empty($direction) && $direction == 'rtl' ? 'rtl' : 'ltr';
 $containerTpl = !empty($containerTpl) ? $containerTpl : 'BreadCrumbContainerTpl';
 $currentCrumbTpl = !empty($currentCrumbTpl) ? $currentCrumbTpl : 'BreadCrumbCurrentCrumbTpl';
@@ -114,8 +116,28 @@ foreach($crumbs as $key => $resource)
 	{
 		$tpl = $linkCrumbTpl;
 	}
+	
+	// Placeholders
+	$placeholders = $resource->toArray();
+	if($resource->get('class_key') == 'modWebLink' && $useWebLinkUrl)
+	{
+		if(is_numeric($resource->get('content')))
+		{
+			$link = $modx->makeUrl($resource->get('content'));
+		} 
+		else 
+		{
+			$link = $resource->get('content');
+		}
+	}
+	else
+	{
+		$link = $modx->makeUrl($resource->get('id'));
+	}
+	$placeholders = array_merge($resource->toArray(), array('link' => $link));
+	
 	// Output
-	$output .= $modx->getChunk($tpl, $resource->toArray());
+	$output .= $modx->getChunk($tpl, $placeholders);
 }
 
 // We add the max delimiter to the crumbs output, if the max limit was reached
