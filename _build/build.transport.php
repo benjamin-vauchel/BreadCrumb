@@ -43,7 +43,7 @@
  * contact@omycode.fr -> your email address
  * Description -> Description of file or component
  *
- * 13/11/11 -> Current date
+ * 19/11/11 -> Current date
  * 2011 -> Current Year
  */
 
@@ -51,7 +51,7 @@
 define('PKG_NAME','BreadCrumb');
 define('PKG_NAME_LOWER','breadcrumb');
 define('PKG_VERSION','1.0.0');
-define('PKG_RELEASE','beta2');
+define('PKG_RELEASE','beta3');
 define('PKG_CATEGORY','BreadCrumb');
 
 /* Set package options - you can turn these on one-by-one

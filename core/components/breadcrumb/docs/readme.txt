@@ -1,8 +1,8 @@
 --------------------
 Snippets: BreadCrumb
 --------------------
-Version: 1.0.0-beta2
-Released: November 13, 2011
+Version: 1.0.0-beta3
+Released: November 19, 2011
 Since: November 13, 2011
 Author: Benjamin Vauchel <contact@omycode.fr>
 
@@ -22,6 +22,7 @@ And add new features :
 	- breadcrumb for specific resource (property &resourceId)
 	- direction (property &direction)
 	- showContainer property
+	- useWebLinkUrl property
 	
 Some features of Jared's BreadCrumbs are missing but easily can be replaced by chunk / CSS customization, as :
 	- crumbSeparator

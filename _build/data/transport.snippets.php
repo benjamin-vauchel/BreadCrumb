@@ -3,7 +3,7 @@
  * BreadCrumb transport snippets
  * Copyright 2011 Benjamin Vauchel <contact@omycode.fr>
  * @author Benjamin Vauchel <contact@omycode.fr>
- * 13/11/11
+ * 19/11/11
  *
  * BreadCrumb is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free

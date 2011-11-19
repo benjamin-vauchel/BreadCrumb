@@ -25,6 +25,7 @@ And add new features :
 *   breadcrumb for specific resource (property &resourceId)
 *   direction (property &direction)
 *   showContainer property
+*   useWebLinkUrl property
 	
 Some features of Jared's BreadCrumbs are missing but easily can be replaced by chunk / CSS customization, as :
 

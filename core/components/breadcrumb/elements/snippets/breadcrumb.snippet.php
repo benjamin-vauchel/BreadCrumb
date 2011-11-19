@@ -20,7 +20,7 @@
  * @author Benjamin Vauchel <contact@omycode.fr>
  *
  * @version Version 1.0.0 Beta-1
- * 13/11/11
+ * 19/11/11
  *
  * Breadcrumb is a snippet for MODx Revolution, inspired by the Jared's BreadCrumbs snippet.
  * It will create a breadcrumb navigation for the current resource or a specific resource.
