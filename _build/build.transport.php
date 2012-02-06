@@ -51,7 +51,7 @@
 define('PKG_NAME','BreadCrumb');
 define('PKG_NAME_LOWER','breadcrumb');
 define('PKG_VERSION','1.0.0');
-define('PKG_RELEASE','beta3');
+define('PKG_RELEASE','pl');
 define('PKG_CATEGORY','BreadCrumb');
 
 /* Set package options - you can turn these on one-by-one
