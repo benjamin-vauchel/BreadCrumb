@@ -28,29 +28,10 @@
  * @subpackage build
  */
 
-/* See the breadcrumb/core/docs/tutorial.html file for
- * more detailed information about using the package
- *
- * Search and replace tasks:
- * (edit the resource and element names first if they have
- * different names than your package.)
- *
- * BreadCrumb -> Name of your package
- * breadcrumb -> lowercase name of your package
- * Benjamin Vauchel -> Your Actual Name
- * OMYCODE -> Name of your site
- * www.omycode.fr -> domain name of your site
- * contact@omycode.fr -> your email address
- * Description -> Description of file or component
- *
- * 19/11/11 -> Current date
- * 2011 -> Current Year
- */
-
 /* Set package info be sure to set all of these */
 define('PKG_NAME','BreadCrumb');
 define('PKG_NAME_LOWER','breadcrumb');
-define('PKG_VERSION','1.0.0');
+define('PKG_VERSION','1.1.0');
 define('PKG_RELEASE','pl');
 define('PKG_CATEGORY','BreadCrumb');
 

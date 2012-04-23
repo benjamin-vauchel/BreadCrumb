@@ -1,5 +1,9 @@
 Changelog for BreadCrumb
 
+BreadCrumb 1.1.0-pl
+-------------------
+Add properties &from and &to to generate breadcrumb between to specific resources
+
 BreadCrumb 1.0.0-pl
 -------------------
 Public launch

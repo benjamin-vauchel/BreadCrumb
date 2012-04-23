@@ -22,7 +22,7 @@ This snippet support most of Jared's BreadCrumbs features :
 And add new features : 
 
 *   chunk as templates (properties &containerTpl, &currentCrumbTpl, &linkCrumbTpl, &maxCrumbTpl)
-*   breadcrumb for specific resource (property &resourceId)
+*   breadcrumb for and from specific resource (property &to and &from)
 *   direction (property &direction)
 *   showContainer property
 *   useWebLinkUrl property

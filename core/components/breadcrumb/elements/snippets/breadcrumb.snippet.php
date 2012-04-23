@@ -19,8 +19,8 @@
  * @package breadcrumb
  * @author Benjamin Vauchel <contact@omycode.fr>
  *
- * @version Version 1.0.0 Beta-1
- * 19/11/11
+ * @version Version 1.1.0 pl
+ * 23/04/12
  *
  * Breadcrumb is a snippet for MODx Revolution, inspired by the Jared's BreadCrumbs snippet.
  * It will create a breadcrumb navigation for the current resource or a specific resource.
@@ -47,20 +47,22 @@
  */
 
 // Script Properties
-$resourceId = $currentResourceId = !empty($resourceId) ? $resourceId : $modx->resource->get('id');
-$maxCrumbs = !empty($maxCrumbs) ? abs(intval($maxCrumbs)) : 100;
-$showHidden = isset($showHidden) ? (bool)$showHidden : true;
-$showContainer = isset($showContainer) ? (bool)$showContainer : true;
-$showUnPub = isset($showUnPub) ? (bool)$showUnPub : true;
-$showCurrentCrumb = isset($showCurrentCrumb) ? (bool)$showCurrentCrumb : true;
+$resourceId           = !empty($resourceId) ? $resourceId : null;
+$from                 = !empty($from) ? $from : 0;
+$to                   = $currentResourceId = (!is_null($resourceId) ? $resourceId : (!empty($to) ? $to : $modx->resource->get('id')));
+$maxCrumbs            = !empty($maxCrumbs) ? abs(intval($maxCrumbs)) : 100;
+$showHidden           = isset($showHidden) ? (bool)$showHidden : true;
+$showContainer        = isset($showContainer) ? (bool)$showContainer : true;
+$showUnPub            = isset($showUnPub) ? (bool)$showUnPub : true;
+$showCurrentCrumb     = isset($showCurrentCrumb) ? (bool)$showCurrentCrumb : true;
 $showBreadCrumbAtHome = isset($showBreadCrumbAtHome) ? (bool)$showBreadCrumbAtHome : true;
-$showHomeCrumb = isset($showHomeCrumb) ? (bool)$showHomeCrumb : false;
-$useWebLinkUrl = isset($useWebLinkUrl) ? (bool)$useWebLinkUrl : true;
-$direction = !empty($direction) && $direction == 'rtl' ? 'rtl' : 'ltr';
-$containerTpl = !empty($containerTpl) ? $containerTpl : 'BreadCrumbContainerTpl';
-$currentCrumbTpl = !empty($currentCrumbTpl) ? $currentCrumbTpl : 'BreadCrumbCurrentCrumbTpl';
-$linkCrumbTpl = !empty($linkCrumbTpl) ? $linkCrumbTpl : 'BreadCrumbLinkCrumbTpl';
-$maxCrumbTpl = !empty($maxCrumbTpl) ? $maxCrumbTpl : 'BreadCrumbMaxCrumbTpl';
+$showHomeCrumb        = isset($showHomeCrumb) ? (bool)$showHomeCrumb : false;
+$useWebLinkUrl        = isset($useWebLinkUrl) ? (bool)$useWebLinkUrl : true;
+$direction            = !empty($direction) && $direction == 'rtl' ? 'rtl' : 'ltr';
+$containerTpl         = !empty($containerTpl) ? $containerTpl : 'BreadCrumbContainerTpl';
+$currentCrumbTpl      = !empty($currentCrumbTpl) ? $currentCrumbTpl : 'BreadCrumbCurrentCrumbTpl';
+$linkCrumbTpl         = !empty($linkCrumbTpl) ? $linkCrumbTpl : 'BreadCrumbLinkCrumbTpl';
+$maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : 'BreadCrumbMaxCrumbTpl';
 
 // Output variable
 $output = '';
@@ -74,7 +76,8 @@ if(!$showBreadCrumbAtHome && $modx->resource->get('id') == $modx->getOption('sit
 // We get all the crumbs
 $crumbs = array();
 $crumbsCount = 0;
-while($resourceId != 0 && $crumbsCount < $maxCrumbs)
+$resourceId = $to;
+while($resourceId != $from && $crumbsCount < $maxCrumbs)
 {
 	$resource = $modx->getObject('modResource', $resourceId);
 	
