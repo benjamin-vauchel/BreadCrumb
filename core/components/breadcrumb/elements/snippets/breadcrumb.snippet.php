@@ -61,6 +61,7 @@ $showBreadCrumbAtHome = isset($showBreadCrumbAtHome) ? (bool)$showBreadCrumbAtHo
 $showHomeCrumb        = isset($showHomeCrumb) ? (bool)$showHomeCrumb : false;
 $useWebLinkUrl        = isset($useWebLinkUrl) ? (bool)$useWebLinkUrl : true;
 $direction            = !empty($direction) && $direction == 'rtl' ? 'rtl' : 'ltr';
+$scheme            	  = !empty($scheme) ? $scheme : $modx->getOption('link_tag_scheme');
 $containerTpl         = !empty($containerTpl) ? $containerTpl : 'BreadCrumbContainerTpl';
 $currentCrumbTpl      = !empty($currentCrumbTpl) ? $currentCrumbTpl : 'BreadCrumbCurrentCrumbTpl';
 $linkCrumbTpl         = !empty($linkCrumbTpl) ? $linkCrumbTpl : 'BreadCrumbLinkCrumbTpl';
@@ -128,7 +129,7 @@ foreach($crumbs as $key => $resource)
 	{
 		if(is_numeric($resource->get('content')))
 		{
-			$link = $modx->makeUrl($resource->get('content'), '', '', $modx->getOption('link_tag_scheme'));
+			$link = $modx->makeUrl($resource->get('content'), '', '', $scheme);
 		} 
 		else 
 		{
@@ -137,7 +138,7 @@ foreach($crumbs as $key => $resource)
 	}
 	else
 	{
-		$link = $modx->makeUrl($resource->get('id'), '', '', $modx->getOption('link_tag_scheme'));
+		$link = $modx->makeUrl($resource->get('id'), '', '', $scheme);
 	}
 	$placeholders = array_merge($resource->toArray(), array('link' => $link));
 	
