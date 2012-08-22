@@ -1,5 +1,9 @@
 Changelog for BreadCrumb
 
+BreadCrumb 1.1.1-pl
+-------------------
+Add modx link_tag_scheme option in makeUrl calls
+
 BreadCrumb 1.1.0-pl
 -------------------
 Add properties &from and &to to generate breadcrumb between to specific resources
