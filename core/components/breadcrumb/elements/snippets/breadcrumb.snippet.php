@@ -19,8 +19,8 @@
  * @package breadcrumb
  * @author Benjamin Vauchel <contact@omycode.fr>
  *
- * @version Version 1.1.0 pl
- * 23/04/12
+ * @version Version 1.1.1 pl
+ * 22/08/12
  *
  * Breadcrumb is a snippet for MODx Revolution, inspired by the Jared's BreadCrumbs snippet.
  * It will create a breadcrumb navigation for the current resource or a specific resource.
@@ -126,7 +126,7 @@ foreach($crumbs as $key => $resource)
 	{
 		if(is_numeric($resource->get('content')))
 		{
-			$link = $modx->makeUrl($resource->get('content'));
+			$link = $modx->makeUrl($resource->get('content'), '', '', $modx->getOption('link_tag_scheme'));
 		} 
 		else 
 		{
@@ -135,7 +135,7 @@ foreach($crumbs as $key => $resource)
 	}
 	else
 	{
-		$link = $modx->makeUrl($resource->get('id'));
+		$link = $modx->makeUrl($resource->get('id'), '', '', $modx->getOption('link_tag_scheme'));
 	}
 	$placeholders = array_merge($resource->toArray(), array('link' => $link));
 	
