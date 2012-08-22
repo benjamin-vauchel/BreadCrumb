@@ -2,7 +2,7 @@ Changelog for BreadCrumb
 
 BreadCrumb 1.1.1-pl
 -------------------
-Add modx link_tag_scheme option in makeUrl calls
+Add &scheme property to define modx links scheme
 
 BreadCrumb 1.1.0-pl
 -------------------
