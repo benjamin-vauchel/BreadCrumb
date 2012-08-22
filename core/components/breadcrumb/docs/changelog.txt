@@ -1,6 +1,6 @@
 Changelog for BreadCrumb
 
-BreadCrumb 1.1.1-pl
+BreadCrumb 1.2.0-pl
 -------------------
 Add &scheme property to define modx links scheme
 

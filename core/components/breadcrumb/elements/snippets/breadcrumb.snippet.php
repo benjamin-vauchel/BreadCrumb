@@ -19,7 +19,7 @@
  * @package breadcrumb
  * @author Benjamin Vauchel <contact@omycode.fr>
  *
- * @version Version 1.1.1 pl
+ * @version Version 1.2.0 pl
  * 22/08/12
  *
  * Breadcrumb is a snippet for MODx Revolution, inspired by the Jared's BreadCrumbs snippet.
