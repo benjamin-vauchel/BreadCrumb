@@ -27,7 +27,9 @@
  *
  * Optional properties:
  *
- * @property resourceId - (int) Resource ID whose breadcrumb is created; [Default value : current resource id].
+ * @property resourceId - (int) Resource ID whose breadcrumb is created; [Default value : null].
+ * @property from - (int) Resource ID of the first crumb; [Default value : 0].
+ * @property to - (int) Resource ID of the last crumb; [Default value : current resource id].
  * @property maxCrumbs - (int) Max crumbs shown in breadcrumb. Max delimiter template can be customize with property maxCrumbTpl ; [Default value : 100].
  * @property showHidden - (bool) Show hidden resources in breadcrumb; [Default value : true].
  * @property showContainer - (bool) Show container resources in breadcrumb; [Default value : true].
