@@ -31,7 +31,7 @@
 /* Set package info be sure to set all of these */
 define('PKG_NAME','BreadCrumb');
 define('PKG_NAME_LOWER','breadcrumb');
-define('PKG_VERSION','1.2.0');
+define('PKG_VERSION','1.3.0');
 define('PKG_RELEASE','pl');
 define('PKG_CATEGORY','BreadCrumb');
 
@@ -129,14 +129,6 @@ $snippets = include $sources['data'].'transport.snippets.php';
 if (is_array($snippets)) {
     $category->addMany($snippets, 'Snippets');
 } else { $modx->log(modX::LOG_LEVEL_FATAL,'Adding snippets failed.'); }
-
-/* add chunks  */
-$modx->log(modX::LOG_LEVEL_INFO,'Adding in chunks.');
-/* note: Chunks' default properties are set in transport.chunks.php */    
-$chunks = include $sources['data'].'transport.chunks.php';
-if (is_array($chunks)) {
-    $category->addMany($chunks, 'Chunks');
-} else { $modx->log(modX::LOG_LEVEL_FATAL,'Adding chunks failed.'); }
 
 /* Create Category attributes array dynamically
  * based on which elements are present

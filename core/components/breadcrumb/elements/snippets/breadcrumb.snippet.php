@@ -19,8 +19,8 @@
  * @package breadcrumb
  * @author Benjamin Vauchel <contact@omycode.fr>
  *
- * @version Version 1.2.0 pl
- * 22/08/12
+ * @version Version 1.3.0 pl
+ * 28/08/12
  *
  * Breadcrumb is a snippet for MODx Revolution, inspired by the Jared's BreadCrumbs snippet.
  * It will create a breadcrumb navigation for the current resource or a specific resource.
@@ -91,7 +91,7 @@ function processTpl($tpl, $placeholders = array())
 	{
 		$chunk = $modx->newObject('modChunk');
 		$chunk->setCacheable(false);
-		$chunk->setContent(file_get_contents($modx->getOption('core_path').'/'.substr($tpl, 6)));
+		$chunk->setContent(file_get_contents(substr($tpl, 6)));
 	}
 	else
 	{
