@@ -41,7 +41,7 @@ define('PKG_CATEGORY','BreadCrumb');
 $hasAssets = false; /* Transfer the files in the assets dir. */
 $hasCore = true;   /* Transfer the files in the core dir. */
 $hasSnippets = true;
-$hasChunks = true;
+$hasChunks = false;
 $hasTemplates = false;
 $hasResources = false;
 $hasValidator = false; /* Run a validator before installing anything */

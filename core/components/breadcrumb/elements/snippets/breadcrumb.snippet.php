@@ -39,6 +39,7 @@
  * @property showHomeCrumb - (bool) Show the home page as a crumb; [Default value : false].
  * @property useWebLinkUrl - (bool) Use the weblink url instead of the url to the weblink; [Default value : true].
  * @property direction - (string) Direction or breadcrumb : Left To Right (ltr) or Right To Left (rtl) for Arabic language for example; [Default value : ltr].
+ * @property scheme - (string) URL Generation Scheme; [Default value : -1].
  *
  * Templates :
  *
@@ -49,23 +50,23 @@
  */
 
 // Script Properties
-$resourceId           = !empty($resourceId) ? $resourceId : null;
-$from                 = !empty($from) ? $from : 0;
-$to                   = $currentResourceId = (!is_null($resourceId) ? $resourceId : (!empty($to) ? $to : $modx->resource->get('id')));
-$maxCrumbs            = !empty($maxCrumbs) ? abs(intval($maxCrumbs)) : 100;
-$showHidden           = isset($showHidden) ? (bool)$showHidden : true;
-$showContainer        = isset($showContainer) ? (bool)$showContainer : true;
-$showUnPub            = isset($showUnPub) ? (bool)$showUnPub : true;
-$showCurrentCrumb     = isset($showCurrentCrumb) ? (bool)$showCurrentCrumb : true;
-$showBreadCrumbAtHome = isset($showBreadCrumbAtHome) ? (bool)$showBreadCrumbAtHome : true;
-$showHomeCrumb        = isset($showHomeCrumb) ? (bool)$showHomeCrumb : false;
-$useWebLinkUrl        = isset($useWebLinkUrl) ? (bool)$useWebLinkUrl : true;
-$direction            = !empty($direction) && $direction == 'rtl' ? 'rtl' : 'ltr';
-$scheme            	  = !empty($scheme) ? $scheme : $modx->getOption('link_tag_scheme');
-$containerTpl         = !empty($containerTpl) ? $containerTpl : 'BreadCrumbContainerTpl';
-$currentCrumbTpl      = !empty($currentCrumbTpl) ? $currentCrumbTpl : 'BreadCrumbCurrentCrumbTpl';
-$linkCrumbTpl         = !empty($linkCrumbTpl) ? $linkCrumbTpl : 'BreadCrumbLinkCrumbTpl';
-$maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : 'BreadCrumbMaxCrumbTpl';
+$resourceId           = !empty($resourceId) ? $resourceId : $modx->getOption('resourceId', $scriptProperties, null, true);
+$from                 = !empty($from) ? $from : $modx->getOption('from', $scriptProperties, 0, true, true);
+$to                   = $currentResourceId = (!is_null($resourceId) ? $resourceId : (!empty($to) ? $to : $modx->getOption('to', $scriptProperties, $modx->resource->get('id'), true)));
+$maxCrumbs            = !empty($maxCrumbs) ? abs(intval($maxCrumbs)) : $modx->getOption('maxCrumbs', $scriptProperties, 100, true);
+$showHidden           = isset($showHidden) ? (bool)$showHidden : (bool)$modx->getOption('showHidden', $scriptProperties, true, true);
+$showContainer        = isset($showContainer) ? (bool)$showContainer : (bool)$modx->getOption('showContainer', $scriptProperties, true, true);
+$showUnPub            = isset($showUnPub) ? (bool)$showUnPub : (bool)$modx->getOption('showUnPub', $scriptProperties, true, true);
+$showCurrentCrumb     = isset($showCurrentCrumb) ? (bool)$showCurrentCrumb : (bool)$modx->getOption('showCurrentCrumb', $scriptProperties, true, true);
+$showBreadCrumbAtHome = isset($showBreadCrumbAtHome) ? (bool)$showBreadCrumbAtHome : (bool)$modx->getOption('showBreadCrumbAtHome', $scriptProperties, true, true);
+$showHomeCrumb        = isset($showHomeCrumb) ? (bool)$showHomeCrumb : (bool)$modx->getOption('showHomeCrumb', $scriptProperties, false, true);
+$useWebLinkUrl        = isset($useWebLinkUrl) ? (bool)$useWebLinkUrl : (bool)$modx->getOption('useWebLinkUrl', $scriptProperties, true, true);
+$direction            = !empty($direction) ? $direction : $modx->getOption('direction', $scriptProperties, 'ltr', true);
+$scheme               = !empty($scheme) ? $scheme : $modx->getOption('scheme', $scriptProperties, $modx->getOption('link_tag_scheme'), true);
+$containerTpl         = !empty($containerTpl) ? $containerTpl : $modx->getOption('containerTpl', $scriptProperties, 'BreadCrumbContainerTpl');
+$currentCrumbTpl      = !empty($currentCrumbTpl) ? $currentCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, 'BreadCrumbContainerTpl');
+$linkCrumbTpl         = !empty($linkCrumbTpl) ? $linkCrumbTpl : $modx->getOption('linkCrumbTpl', $scriptProperties, 'BreadCrumbLinkCrumbTpl');
+$maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : $modx->getOption('maxCrumbTpl', $scriptProperties, 'BreadCrumbMaxCrumbTpl');
 
 // Output variable
 $output = '';

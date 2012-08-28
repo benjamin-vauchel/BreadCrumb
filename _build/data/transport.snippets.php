@@ -44,8 +44,8 @@ $snippets[1]->fromArray(array(
     'description' => 'This snippet will create a breadcrumb navigation for the current resource or a specific resource.',
     'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/breadcrumb.snippet.php'),
 ),'',true,true);
-/*$properties = include $sources['data'].'/properties/properties.mysnippet1.php';
+$properties = include $sources['data'].'/properties/properties.breadcrumb.php';
 $snippets[1]->setProperties($properties);
-unset($properties);*/
+unset($properties);
 
 return $snippets;
