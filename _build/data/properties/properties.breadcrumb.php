@@ -96,7 +96,7 @@ $properties = array(
         'type' => 'list',
         'options' => array(
             array(
-                'name' => 'Left To Right',
+                'name' => 'Left To Right (ltr)',
                 'value' => 'ltr',
                 'menu' => '',
             ),
@@ -106,7 +106,7 @@ $properties = array(
                 'menu' => '',
             ),
         ),
-        'value' => 'Left To Right',
+        'value' => 'ltr',
         'lexicon' => 'breadcrumb:properties',
     ),
     array(
