@@ -63,10 +63,48 @@ $showHomeCrumb        = isset($showHomeCrumb) ? (bool)$showHomeCrumb : (bool)$mo
 $useWebLinkUrl        = isset($useWebLinkUrl) ? (bool)$useWebLinkUrl : (bool)$modx->getOption('useWebLinkUrl', $scriptProperties, true, true);
 $direction            = !empty($direction) ? $direction : $modx->getOption('direction', $scriptProperties, 'ltr', true);
 $scheme               = !empty($scheme) ? $scheme : $modx->getOption('scheme', $scriptProperties, $modx->getOption('link_tag_scheme'), true);
-$containerTpl         = !empty($containerTpl) ? $containerTpl : $modx->getOption('containerTpl', $scriptProperties, 'BreadCrumbContainerTpl');
-$currentCrumbTpl      = !empty($currentCrumbTpl) ? $currentCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, 'BreadCrumbContainerTpl');
-$linkCrumbTpl         = !empty($linkCrumbTpl) ? $linkCrumbTpl : $modx->getOption('linkCrumbTpl', $scriptProperties, 'BreadCrumbLinkCrumbTpl');
-$maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : $modx->getOption('maxCrumbTpl', $scriptProperties, 'BreadCrumbMaxCrumbTpl');
+$containerTpl         = !empty($containerTpl) ? $containerTpl : $modx->getOption('containerTpl', $scriptProperties, '@CODE:<ul id="breadcrumb" itemprop="breadcrumb"><li><a href="[[++site_url]]">[[++site_name]]</a></li>[[+crumbs]]</ul>');
+$currentCrumbTpl      = !empty($currentCrumbTpl) ? $currentCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@CODE:<li>[[+pagetitle]]</li>');
+$linkCrumbTpl         = !empty($linkCrumbTpl) ? $linkCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@CODE:<li><a href="[[+link]]">[[+pagetitle]]</a></li>');
+$maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@CODE:<li>...</li>');
+
+/**
+ * Return a chunk processed from chunk name, file path or direct code.
+ * 
+ * @param string $tpl Can be chunk name, file path (@FILE:) or code (@CODE:)
+ * @param array $placeholders Array of chunk placeholders
+ * 
+ * @return string Chunk processed
+ * 
+ */
+function processTpl($tpl, $placeholders = array())
+{
+	global $modx;
+
+	if(preg_match('#^(@CODE:)#', $tpl))
+	{
+		$chunk = $modx->newObject('modChunk');
+		$chunk->setCacheable(false);
+		$chunk->setContent(substr($tpl, 6));
+	}
+	elseif(preg_match('#^(@FILE:)#', $tpl))
+	{
+		$chunk = $modx->newObject('modChunk');
+		$chunk->setCacheable(false);
+		$chunk->setContent(file_get_contents($modx->getOption('core_path').'/'.substr($tpl, 6)));
+	}
+	else
+	{
+		$chunk = $modx->getObject('modChunk', array('name' => $tpl), true);
+		if(!is_object($chunk))
+		{
+			$chunk = $modx->newObject('modChunk');
+			$chunk->setCacheable(false);
+			$chunk->setContent('');
+		}
+	} 
+	return $chunk->process($placeholders);
+}
 
 // Output variable
 $output = '';
@@ -142,9 +180,9 @@ foreach($crumbs as $key => $resource)
 		$link = $modx->makeUrl($resource->get('id'), '', '', $scheme);
 	}
 	$placeholders = array_merge($resource->toArray(), array('link' => $link));
-	
+    
 	// Output
-	$output .= $modx->getChunk($tpl, $placeholders);
+	$output .= processTpl($tpl, $placeholders); 
 }
 
 // We add the max delimiter to the crumbs output, if the max limit was reached
@@ -153,17 +191,17 @@ if($crumbsCount == $maxCrumbs)
 	// If is LTR direction, we push the max delimiter at the beginning of the crumbs
 	if($direction == 'ltr')
 	{
-		$output = $modx->getChunk($maxCrumbTpl).$output;
+		$output = processTpl($maxCrumbTpl).$output;
 	}
 	// Else we push it at the end
 	else
 	{
-		$output .= $modx->getChunk($maxCrumbTpl);
+		$output .= processTpl($maxCrumbTpl);
 	}
 }
 
 // We build the breadcrumb output
-$output = $modx->getChunk($containerTpl, array(
+$output = processTpl($containerTpl, array(
 	'crumbs' => $output,
 ));
 
