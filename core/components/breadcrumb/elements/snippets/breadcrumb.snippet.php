@@ -70,40 +70,43 @@ $maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : $modx->getOption('
 
 /**
  * Return a chunk processed from chunk name, file path or direct code.
- * 
+ *
  * @param string $tpl Can be chunk name, file path (@FILE:) or code (@CODE:)
  * @param array $placeholders Array of chunk placeholders
- * 
+ *
  * @return string Chunk processed
- * 
+ *
  */
-function processTpl($tpl, $placeholders = array())
+if(!function_exists('processTpl'))
 {
-	global $modx;
+	function processTpl($tpl, $placeholders = array())
+	{
+		global $modx;
 
-	if(preg_match('#^(@CODE:)#', $tpl))
-	{
-		$chunk = $modx->newObject('modChunk');
-		$chunk->setCacheable(false);
-		$chunk->setContent(substr($tpl, 6));
-	}
-	elseif(preg_match('#^(@FILE:)#', $tpl))
-	{
-		$chunk = $modx->newObject('modChunk');
-		$chunk->setCacheable(false);
-		$chunk->setContent(file_get_contents(substr($tpl, 6)));
-	}
-	else
-	{
-		$chunk = $modx->getObject('modChunk', array('name' => $tpl), true);
-		if(!is_object($chunk))
+		if(preg_match('#^(@CODE:)#', $tpl))
 		{
 			$chunk = $modx->newObject('modChunk');
 			$chunk->setCacheable(false);
-			$chunk->setContent('');
+			$chunk->setContent(substr($tpl, 6));
 		}
-	} 
-	return $chunk->process($placeholders);
+		elseif(preg_match('#^(@FILE:)#', $tpl))
+		{
+			$chunk = $modx->newObject('modChunk');
+			$chunk->setCacheable(false);
+			$chunk->setContent(file_get_contents(substr($tpl, 6)));
+		}
+		else
+		{
+			$chunk = $modx->getObject('modChunk', array('name' => $tpl), true);
+			if(!is_object($chunk))
+			{
+				$chunk = $modx->newObject('modChunk');
+				$chunk->setCacheable(false);
+				$chunk->setContent('');
+			}
+		}
+		return $chunk->process($placeholders);
+	}
 }
 
 // Output variable
@@ -122,7 +125,7 @@ $resourceId = $to;
 while($resourceId != $from && $crumbsCount < $maxCrumbs)
 {
 	$resource = $modx->getObject('modResource', $resourceId);
-	
+
 	// We check the conditions to show crumb
 	if(
 		(($resourceId == $modx->getOption('site_start') && $showHomeCrumb) || $resourceId != $modx->getOption('site_start'))  // ShowHomeCrumb
@@ -132,17 +135,17 @@ while($resourceId != $from && $crumbsCount < $maxCrumbs)
 		&& (($resourceId == $currentResourceId && $showCurrentCrumb) || $resourceId != $currentResourceId)  // ShowCurrent
 	)
 	{
-		// If is LTR direction, we push resource at the beginning of the array 
+		// If is LTR direction, we push resource at the beginning of the array
 		if($direction == 'ltr')
 		{
-		    array_unshift($crumbs, $resource); 
+		    array_unshift($crumbs, $resource);
 		}
 		// Else we push it at the end
 		else
 		{
 		    $crumbs[] = $resource;
 		}
-		
+
 		$crumbsCount++;
 	}
 	$resourceId = $resource->get('parent');
@@ -150,7 +153,7 @@ while($resourceId != $from && $crumbsCount < $maxCrumbs)
 
 // We build the output of crumbs
 foreach($crumbs as $key => $resource)
-{	
+{
 	// Current crumb tpl ?
 	if($showCurrentCrumb && ($resource->get('id') == $currentResourceId))
 	{
@@ -161,7 +164,7 @@ foreach($crumbs as $key => $resource)
 	{
 		$tpl = $linkCrumbTpl;
 	}
-	
+
 	// Placeholders
 	$placeholders = $resource->toArray();
 	if($resource->get('class_key') == 'modWebLink' && $useWebLinkUrl)
@@ -169,8 +172,8 @@ foreach($crumbs as $key => $resource)
 		if(is_numeric($resource->get('content')))
 		{
 			$link = $modx->makeUrl($resource->get('content'), '', '', $scheme);
-		} 
-		else 
+		}
+		else
 		{
 			$link = $resource->get('content');
 		}
@@ -180,9 +183,9 @@ foreach($crumbs as $key => $resource)
 		$link = $modx->makeUrl($resource->get('id'), '', '', $scheme);
 	}
 	$placeholders = array_merge($resource->toArray(), array('link' => $link));
-    
+
 	// Output
-	$output .= processTpl($tpl, $placeholders); 
+	$output .= processTpl($tpl, $placeholders);
 }
 
 // We add the max delimiter to the crumbs output, if the max limit was reached
