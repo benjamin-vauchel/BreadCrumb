@@ -31,7 +31,7 @@
 /* Set package info be sure to set all of these */
 define('PKG_NAME','BreadCrumb');
 define('PKG_NAME_LOWER','breadcrumb');
-define('PKG_VERSION','1.3.0');
+define('PKG_VERSION','1.3.1');
 define('PKG_RELEASE','pl');
 define('PKG_CATEGORY','BreadCrumb');
 
