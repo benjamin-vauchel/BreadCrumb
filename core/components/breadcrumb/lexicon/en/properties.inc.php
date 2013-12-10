@@ -43,4 +43,5 @@ $_lang['breadcrumb_snippet_scheme_desc']               = 'URL Generation Scheme.
 $_lang['breadcrumb_snippet_containertpl_desc']         = 'Container template for BreadCrumb. Can be file (@FILE:), code (@CODE:) or chunk name.';
 $_lang['breadcrumb_snippet_currentcrumbtpl_desc']      = 'Current crumb template for BreadCrumb. Can be file (@FILE:), code (@CODE:) or chunk name.';
 $_lang['breadcrumb_snippet_linkcrumbtpl_desc']         = 'Default crumb template for BreadCrumb. Can be file (@FILE:), code (@CODE:) or chunk name.';
+$_lang['breadcrumb_snippet_categorycrumbtpl_desc']     = 'Default category crumb template for BreadCrumb. Can be file (@FILE:), code (@CODE:) or chunk name.';
 $_lang['breadcrumb_snippet_maxcrumbtpl_desc']          = 'Max delimiter crumb template for BreadCrumb. Can be file (@FILE:), code (@CODE:) or chunk name.';
