@@ -143,7 +143,7 @@ $properties = array(
     ),
     array(
         'name' => 'categoryCrumbTpl',
-        'desc' => 'breadcrumb_snippet_categorytpl_desc',
+        'desc' => 'breadcrumb_snippet_categorycrumbtpl_desc',
         'type' => 'textfield',
         'options' => '',
         'value' => '@CODE:<li><a href="[[+link]]">[[+pagetitle]]</a></li>',
