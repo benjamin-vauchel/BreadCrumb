@@ -46,6 +46,7 @@
  * @property containerTpl - (string) Container template for BreadCrumb; [Default value : BreadCrumbContainerTpl].
  * @property currentCrumbTpl - (string) Current crumb template for BreadCrumb; [Default value : BreadCrumbCurrentCrumbTpl].
  * @property linkCrumbTpl - (string) Default crumb template for BreadCrumb; [Default value : BreadCrumbLinkCrumbTpl].
+ * @property categoryCrumbTpl - (string) Default category crumb template for BreadCrumb; [Default value : BreadCrumbCategoryCrumbTpl].
  * @property maxCrumbTpl - (string) Max delimiter crumb template for BreadCrumb; [Default value : BreadCrumbMaxCrumbTpl].
  */
 
@@ -66,6 +67,7 @@ $scheme               = !empty($scheme) ? $scheme : $modx->getOption('scheme', $
 $containerTpl         = !empty($containerTpl) ? $containerTpl : $modx->getOption('containerTpl', $scriptProperties, '@CODE:<ul id="breadcrumb" itemprop="breadcrumb"><li><a href="[[++site_url]]">[[++site_name]]</a></li>[[+crumbs]]</ul>');
 $currentCrumbTpl      = !empty($currentCrumbTpl) ? $currentCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@CODE:<li>[[+pagetitle]]</li>');
 $linkCrumbTpl         = !empty($linkCrumbTpl) ? $linkCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@CODE:<li><a href="[[+link]]">[[+pagetitle]]</a></li>');
+$categoryCrumbTpl     = !empty($categoryCrumbTpl) ? $categoryCrumbTpl : $modx->getOption('categoryCrumbTpl', $scriptProperties, '@CODE:<li><a href="[[+link]]">[[+pagetitle]]</a></li>');
 $maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@CODE:<li>...</li>');
 
 /**
@@ -79,34 +81,34 @@ $maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : $modx->getOption('
  */
 if(!function_exists('processTpl'))
 {
-	function processTpl($tpl, $placeholders = array())
-	{
-		global $modx;
+    function processTpl($tpl, $placeholders = array())
+    {
+        global $modx;
 
-		if(preg_match('#^(@CODE:)#', $tpl))
-		{
-			$chunk = $modx->newObject('modChunk');
-			$chunk->setCacheable(false);
-			$chunk->setContent(substr($tpl, 6));
-		}
-		elseif(preg_match('#^(@FILE:)#', $tpl))
-		{
-			$chunk = $modx->newObject('modChunk');
-			$chunk->setCacheable(false);
-			$chunk->setContent(file_get_contents(substr($tpl, 6)));
-		}
-		else
-		{
-			$chunk = $modx->getObject('modChunk', array('name' => $tpl), true);
-			if(!is_object($chunk))
-			{
-				$chunk = $modx->newObject('modChunk');
-				$chunk->setCacheable(false);
-				$chunk->setContent('');
-			}
-		}
-		return $chunk->process($placeholders);
-	}
+        if(preg_match('#^(@CODE:)#', $tpl))
+        {
+            $chunk = $modx->newObject('modChunk');
+            $chunk->setCacheable(false);
+            $chunk->setContent(substr($tpl, 6));
+        }
+        elseif(preg_match('#^(@FILE:)#', $tpl))
+        {
+            $chunk = $modx->newObject('modChunk');
+            $chunk->setCacheable(false);
+            $chunk->setContent(file_get_contents(substr($tpl, 6)));
+        }
+        else
+        {
+            $chunk = $modx->getObject('modChunk', array('name' => $tpl), true);
+            if(!is_object($chunk))
+            {
+                $chunk = $modx->newObject('modChunk');
+                $chunk->setCacheable(false);
+                $chunk->setContent('');
+            }
+        }
+        return $chunk->process($placeholders);
+    }
 }
 
 // Output variable
@@ -115,7 +117,7 @@ $output = '';
 // We check if current resource is the homepage and if breadcrumb is shown for the homepage
 if(!$showBreadCrumbAtHome && $modx->resource->get('id') == $modx->getOption('site_start'))
 {
-	return '';
+    return '';
 }
 
 // We get all the crumbs
@@ -124,88 +126,96 @@ $crumbsCount = 0;
 $resourceId = $to;
 while($resourceId != $from && $crumbsCount < $maxCrumbs)
 {
-	$resource = $modx->getObject('modResource', $resourceId);
+    $resource = $modx->getObject('modResource', $resourceId);
 
-	// We check the conditions to show crumb
-	if(
-		(($resourceId == $modx->getOption('site_start') && $showHomeCrumb) || $resourceId != $modx->getOption('site_start'))  // ShowHomeCrumb
-		&& (($resource->get('hidemenu') && $showHidden) || !$resource->get('hidemenu'))										// ShowHidden
-		&& (($resource->get('isfolder') && $showContainer) || !$resource->get('isfolder'))									// ShowContainer
-		&& ((!$resource->get('published') && $showUnPub) || $resource->get('published')) 									// UnPub
-		&& (($resourceId == $currentResourceId && $showCurrentCrumb) || $resourceId != $currentResourceId)  // ShowCurrent
-	)
-	{
-		// If is LTR direction, we push resource at the beginning of the array
-		if($direction == 'ltr')
-		{
-		    array_unshift($crumbs, $resource);
-		}
-		// Else we push it at the end
-		else
-		{
-		    $crumbs[] = $resource;
-		}
+    // We check the conditions to show crumb
+    if(
+        (($resourceId == $modx->getOption('site_start') && $showHomeCrumb) || $resourceId != $modx->getOption('site_start'))  // ShowHomeCrumb
+        && (($resource->get('hidemenu') && $showHidden) || !$resource->get('hidemenu'))                                     // ShowHidden
+        && (($resource->get('isfolder') && $showContainer) || !$resource->get('isfolder'))                                  // ShowContainer
+        && ((!$resource->get('published') && $showUnPub) || $resource->get('published'))                                    // UnPub
+        && (($resourceId == $currentResourceId && $showCurrentCrumb) || $resourceId != $currentResourceId)  // ShowCurrent
+    )
+    {
+        // If is LTR direction, we push resource at the beginning of the array
+        if($direction == 'ltr')
+        {
+            array_unshift($crumbs, $resource);
+        }
+        // Else we push it at the end
+        else
+        {
+            $crumbs[] = $resource;
+        }
 
-		$crumbsCount++;
-	}
-	$resourceId = $resource->get('parent');
+        $crumbsCount++;
+    }
+    $resourceId = $resource->get('parent');
 }
 
 // We build the output of crumbs
 foreach($crumbs as $key => $resource)
 {
-	// Current crumb tpl ?
-	if($showCurrentCrumb && ($resource->get('id') == $currentResourceId))
-	{
-		$tpl = $currentCrumbTpl;
-	}
-	// or default crumb tpl ?
-	else
-	{
-		$tpl = $linkCrumbTpl;
-	}
+    // Current crumb tpl ?
+    if($showCurrentCrumb && ($resource->get('id') == $currentResourceId))
+    {
+        $tpl = $currentCrumbTpl;
+    }
+    // resource is a container only, calculated in a similar manner to Wayfinder
+    elseif ($resource->get('isfolder')
+        && ( $resource->get('template') == 0
+            || strpos($resource->get('link_attributes'), 'rel="category"') !== false
+            )
+    ) {
+        $tpl = $categoryCrumbTpl;
+    }
+    // or default crumb tpl ?
+    else
+    {
+        $tpl = $linkCrumbTpl;
+    }
 
-	// Placeholders
-	$placeholders = $resource->toArray();
-	if($resource->get('class_key') == 'modWebLink' && $useWebLinkUrl)
-	{
-		if(is_numeric($resource->get('content')))
-		{
-			$link = $modx->makeUrl($resource->get('content'), '', '', $scheme);
-		}
-		else
-		{
-			$link = $resource->get('content');
-		}
-	}
-	else
-	{
-		$link = $modx->makeUrl($resource->get('id'), '', '', $scheme);
-	}
-	$placeholders = array_merge($resource->toArray(), array('link' => $link));
+    // Placeholders
+    $placeholders = $resource->toArray();
+    if($resource->get('class_key') == 'modWebLink' && $useWebLinkUrl)
+    {
+        if(is_numeric($resource->get('content')))
+        {
+            $link = $modx->makeUrl($resource->get('content'), '', '', $scheme);
+        }
+        else
+        {
+            $link = $resource->get('content');
+        }
+    }
+    else
+    {
+        $link = $modx->makeUrl($resource->get('id'), '', '', $scheme);
+    }
+    $placeholders = array_merge($resource->toArray(), array('link' => $link));
 
-	// Output
-	$output .= processTpl($tpl, $placeholders);
+    // Output
+    $output .= processTpl($tpl, $placeholders);
 }
 
 // We add the max delimiter to the crumbs output, if the max limit was reached
 if($crumbsCount == $maxCrumbs)
 {
-	// If is LTR direction, we push the max delimiter at the beginning of the crumbs
-	if($direction == 'ltr')
-	{
-		$output = processTpl($maxCrumbTpl).$output;
-	}
-	// Else we push it at the end
-	else
-	{
-		$output .= processTpl($maxCrumbTpl);
-	}
+    // If is LTR direction, we push the max delimiter at the beginning of the crumbs
+    if($direction == 'ltr')
+    {
+        $output = processTpl($maxCrumbTpl).$output;
+    }
+    // Else we push it at the end
+    else
+    {
+        $output .= processTpl($maxCrumbTpl);
+    }
 }
 
 // We build the breadcrumb output
 $output = processTpl($containerTpl, array(
-	'crumbs' => $output,
+    'crumbs' => $output,
 ));
 
 return $output;

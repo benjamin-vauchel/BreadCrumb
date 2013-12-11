@@ -142,6 +142,14 @@ $properties = array(
         'lexicon' => 'breadcrumb:properties',
     ),
     array(
+        'name' => 'categoryCrumbTpl',
+        'desc' => 'breadcrumb_snippet_categorycrumbtpl_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '@CODE:<li><a href="[[+link]]">[[+pagetitle]]</a></li>',
+        'lexicon' => 'breadcrumb:properties',
+    ),
+    array(
         'name' => 'maxCrumbTpl',
         'desc' => 'breadcrumb_snippet_maxcrumbtpl_desc',
         'type' => 'textfield',

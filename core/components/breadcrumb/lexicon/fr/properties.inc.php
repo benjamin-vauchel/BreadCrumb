@@ -43,4 +43,5 @@ $_lang['breadcrumb_snippet_scheme_desc']               = 'Schema de génération
 $_lang['breadcrumb_snippet_containertpl_desc']         = 'Template global. Peut prendre pour valeur le chemin vers un fichier (@FILE:), du code (@CODE:) ou le nom d\'un chunk.';
 $_lang['breadcrumb_snippet_currentcrumbtpl_desc']      = 'Template de la ressource courante. Peut prendre pour valeur le chemin vers un fichier (@FILE:), du code (@CODE:) ou le nom d\'un chunk.';
 $_lang['breadcrumb_snippet_linkcrumbtpl_desc']         = 'Template des autres ressources du fil d\'Ariane. Peut prendre pour valeur le chemin vers un fichier (@FILE:), du code (@CODE:) ou le nom d\'un chunk.';
+$_lang['breadcrumb_snippet_categorycrumbtpl_desc']     = 'Template des autres ressources du fil d\'Ariane. Peut prendre pour valeur le chemin vers un fichier (@FILE:), du code (@CODE:) ou le nom d\'un chunk.';
 $_lang['breadcrumb_snippet_maxcrumbtpl_desc']          = 'Template du délimiteur quand la limite max a été atteinte. Peut prendre pour valeur le chemin vers un fichier (@FILE:), du code (@CODE:) ou le nom d\'un chunk.';
