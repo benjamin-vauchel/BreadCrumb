@@ -1,8 +1,8 @@
 --------------------
 Snippets: BreadCrumb
 --------------------
-Version: 1.3.2-beta2
-Released: December 11, 2013
+Version: 1.4.0-pl
+Released: July 31, 2014
 Since: November 13, 2011
 Author: Benjamin Vauchel <contact@omycode.fr>
 
@@ -16,15 +16,15 @@ This snippet support most of Jared's BreadCrumbs features :
 	- showCrumbsAtHome
 	- showCurrentCrumb
 	- showHomeCrumb
-	
-And add new features : 
+
+And add new features :
 	- chunk as templates (properties &containerTpl, &currentCrumbTpl, &linkCrumbTpl, &maxCrumbTpl)
 	- breadcrumb for specific resource (property &resourceId)
 	- direction (property &direction)
 	- showContainer property
 	- useWebLinkUrl property
 	- scheme property
-	
+
 Some features of Jared's BreadCrumbs are missing but easily can be replaced by chunk / CSS customization, as :
 	- crumbSeparator
 	- currentAsLink

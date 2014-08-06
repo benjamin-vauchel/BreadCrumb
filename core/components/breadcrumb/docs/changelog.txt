@@ -1,5 +1,12 @@
 Changelog for BreadCrumb
 
+BreadCrumb 1.4.0-pl
+-------------------
+Simplify home crumb usage. Now, the &showHomeCrumb=1 property adds the home crumb at the start of breadcrumb and &showHomeCrumb=0 hides it if present.
+Add &exclude property to exlude one or many resources from breadcumb
+Tpl @CODE no longer supported. Use @INLINE instead.
+&resourceId no longer supported. Use &to property instead
+
 BreadCrumb 1.3.2-beta1
 -------------------
 Add categoryCrumbTpl

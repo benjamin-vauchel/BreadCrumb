@@ -31,8 +31,8 @@
 /* Set package info be sure to set all of these */
 define('PKG_NAME','BreadCrumb');
 define('PKG_NAME_LOWER','breadcrumb');
-define('PKG_VERSION','1.3.2');
-define('PKG_RELEASE','beta1');
+define('PKG_VERSION','1.4.0');
+define('PKG_RELEASE','pl');
 define('PKG_CATEGORY','BreadCrumb');
 
 /* Set package options - you can turn these on one-by-one
@@ -71,7 +71,7 @@ $hasSubPackages = false; /* add in other component packages (transport.zip files
  * Locally for Packages" in Package Manager. Be aware that the
  * copied packages may be older versions than ones already
  * installed. This is necessary because Package Manager's
- * autoinstall of the packages is unreliable at this point. 
+ * autoinstall of the packages is unreliable at this point.
  */
 
 /******************************************
@@ -157,7 +157,7 @@ $attr[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Chunks'] = array(
  */
 $vehicle = $builder->createVehicle($category,$attr);
 
-/* This section transfers every file in the local 
+/* This section transfers every file in the local
  breadcrumbs/breadcrumb/core directory to the
  target site's core/breadcrumb directory on install.
  If the core has been renamed or moved, they will still
@@ -169,12 +169,12 @@ $vehicle->resolve('file',array(
 ));
 
 /* Put the category vehicle (with all the stuff we added to the
- * category) into the package 
+ * category) into the package
  */
 $builder->putVehicle($vehicle);
 
 /* Next-to-last step - pack in the license file, readme.txt, changelog,
- * and setup options 
+ * and setup options
  */
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),

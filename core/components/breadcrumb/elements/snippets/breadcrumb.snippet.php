@@ -19,24 +19,24 @@
  * @package breadcrumb
  * @author Benjamin Vauchel <contact@omycode.fr>
  *
- * @version Version 1.3.0 pl
- * 28/08/12
+ * @version Version 1.4.0 pl
+ * 31/07/14
  *
  * Breadcrumb is a snippet for MODx Revolution, inspired by the Jared's BreadCrumbs snippet.
  * It will create a breadcrumb navigation for the current resource or a specific resource.
  *
  * Optional properties:
  *
- * @property resourceId - (int) Resource ID whose breadcrumb is created; [Default value : null].
  * @property from - (int) Resource ID of the first crumb; [Default value : 0].
  * @property to - (int) Resource ID of the last crumb; [Default value : current resource id].
+ * @property exclude - (string) Comma separated list of resources IDs not shown in breadcrumb. [Default value : []]
  * @property maxCrumbs - (int) Max crumbs shown in breadcrumb. Max delimiter template can be customize with property maxCrumbTpl ; [Default value : 100].
  * @property showHidden - (bool) Show hidden resources in breadcrumb; [Default value : true].
  * @property showContainer - (bool) Show container resources in breadcrumb; [Default value : true].
  * @property showUnPub - (bool) Show unpublished resources in breadcrumb; [Default value : true].
  * @property showCurrentCrumb - (bool) Show current resource as a crumb; [Default value : true].
  * @property showBreadCrumbAtHome - (bool) Show BreadCrumb on the home page; [Default value : true].
- * @property showHomeCrumb - (bool) Show the home page as a crumb; [Default value : false].
+ * @property showHomeCrumb - (bool) Add the home page crumb at the start of the breadcrumb; [Default value : true].
  * @property useWebLinkUrl - (bool) Use the weblink url instead of the url to the weblink; [Default value : true].
  * @property direction - (string) Direction or breadcrumb : Left To Right (ltr) or Right To Left (rtl) for Arabic language for example; [Default value : ltr].
  * @property scheme - (string) URL Generation Scheme; [Default value : -1].
@@ -51,100 +51,60 @@
  */
 
 // Script Properties
-$resourceId           = !empty($resourceId) ? $resourceId : $modx->getOption('resourceId', $scriptProperties, null, true);
 $from                 = !empty($from) ? $from : $modx->getOption('from', $scriptProperties, 0, true, true);
-$to                   = $currentResourceId = (!is_null($resourceId) ? $resourceId : (!empty($to) ? $to : $modx->getOption('to', $scriptProperties, $modx->resource->get('id'), true)));
+$to                   = !empty($to) ? $to : $modx->getOption('to', $scriptProperties, $modx->resource->get('id'), true);
+$exclude              = !empty($exclude) ? explode(',', $exclude) : array();
 $maxCrumbs            = !empty($maxCrumbs) ? abs(intval($maxCrumbs)) : $modx->getOption('maxCrumbs', $scriptProperties, 100, true);
 $showHidden           = isset($showHidden) ? (bool)$showHidden : (bool)$modx->getOption('showHidden', $scriptProperties, true, true);
 $showContainer        = isset($showContainer) ? (bool)$showContainer : (bool)$modx->getOption('showContainer', $scriptProperties, true, true);
 $showUnPub            = isset($showUnPub) ? (bool)$showUnPub : (bool)$modx->getOption('showUnPub', $scriptProperties, true, true);
 $showCurrentCrumb     = isset($showCurrentCrumb) ? (bool)$showCurrentCrumb : (bool)$modx->getOption('showCurrentCrumb', $scriptProperties, true, true);
 $showBreadCrumbAtHome = isset($showBreadCrumbAtHome) ? (bool)$showBreadCrumbAtHome : (bool)$modx->getOption('showBreadCrumbAtHome', $scriptProperties, true, true);
-$showHomeCrumb        = isset($showHomeCrumb) ? (bool)$showHomeCrumb : (bool)$modx->getOption('showHomeCrumb', $scriptProperties, false, true);
+$showHomeCrumb        = isset($showHomeCrumb) ? (bool)$showHomeCrumb : (bool)$modx->getOption('showHomeCrumb', $scriptProperties, true, true);
 $useWebLinkUrl        = isset($useWebLinkUrl) ? (bool)$useWebLinkUrl : (bool)$modx->getOption('useWebLinkUrl', $scriptProperties, true, true);
 $direction            = !empty($direction) ? $direction : $modx->getOption('direction', $scriptProperties, 'ltr', true);
 $scheme               = !empty($scheme) ? $scheme : $modx->getOption('scheme', $scriptProperties, $modx->getOption('link_tag_scheme'), true);
-$containerTpl         = !empty($containerTpl) ? $containerTpl : $modx->getOption('containerTpl', $scriptProperties, '@CODE:<ul id="breadcrumb" itemprop="breadcrumb"><li><a href="[[++site_url]]">[[++site_name]]</a></li>[[+crumbs]]</ul>');
-$currentCrumbTpl      = !empty($currentCrumbTpl) ? $currentCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@CODE:<li>[[+pagetitle]]</li>');
-$linkCrumbTpl         = !empty($linkCrumbTpl) ? $linkCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@CODE:<li><a href="[[+link]]">[[+pagetitle]]</a></li>');
-$categoryCrumbTpl     = !empty($categoryCrumbTpl) ? $categoryCrumbTpl : $modx->getOption('categoryCrumbTpl', $scriptProperties, '@CODE:<li><a href="[[+link]]">[[+pagetitle]]</a></li>');
-$maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@CODE:<li>...</li>');
+$containerTpl         = !empty($containerTpl) ? $containerTpl : $modx->getOption('containerTpl', $scriptProperties, '@INLINE <ul id="breadcrumb" itemprop="breadcrumb">[[+crumbs]]</ul>');
+$homeCrumbTpl         = !empty($homeCrumbTpl) ? $homeCrumbTpl : $modx->getOption('homeCrumbTpl', $scriptProperties, '@INLINE <li><a href="[[+link]]">[[+pagetitle]]</a></li>');
+$currentCrumbTpl      = !empty($currentCrumbTpl) ? $currentCrumbTpl : $modx->getOption('currentCrumbTpl', $scriptProperties, '@INLINE <li>[[+pagetitle]]</li>');
+$linkCrumbTpl         = !empty($linkCrumbTpl) ? $linkCrumbTpl : $modx->getOption('linkCrumbTpl', $scriptProperties, '@INLINE <li><a href="[[+link]]">[[+pagetitle]]</a></li>');
+$categoryCrumbTpl     = !empty($categoryCrumbTpl) ? $categoryCrumbTpl : $modx->getOption('categoryCrumbTpl', $scriptProperties, '@INLINE <li><a href="[[+link]]">[[+pagetitle]]</a></li>');
+$maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : $modx->getOption('maxCrumbTpl', $scriptProperties, '@INLINE <li>...</li>');
 
-/**
- * Return a chunk processed from chunk name, file path or direct code.
- *
- * @param string $tpl Can be chunk name, file path (@FILE:) or code (@CODE:)
- * @param array $placeholders Array of chunk placeholders
- *
- * @return string Chunk processed
- *
- */
-if(!function_exists('processTpl'))
-{
-    function processTpl($tpl, $placeholders = array())
-    {
-        global $modx;
-
-        if(preg_match('#^(@CODE:)#', $tpl))
-        {
-            $chunk = $modx->newObject('modChunk');
-            $chunk->setCacheable(false);
-            $chunk->setContent(substr($tpl, 6));
-        }
-        elseif(preg_match('#^(@FILE:)#', $tpl))
-        {
-            $chunk = $modx->newObject('modChunk');
-            $chunk->setCacheable(false);
-            $chunk->setContent(file_get_contents(substr($tpl, 6)));
-        }
-        else
-        {
-            $chunk = $modx->getObject('modChunk', array('name' => $tpl), true);
-            if(!is_object($chunk))
-            {
-                $chunk = $modx->newObject('modChunk');
-                $chunk->setCacheable(false);
-                $chunk->setContent('');
-            }
-        }
-        return $chunk->process($placeholders);
-    }
-}
+// include parseTpl
+include_once $modx->getOption('getresources.core_path',null,$modx->getOption('core_path').'components/getresources/').'include.parsetpl.php';
 
 // Output variable
 $output = '';
 
 // We check if current resource is the homepage and if breadcrumb is shown for the homepage
-if(!$showBreadCrumbAtHome && $modx->resource->get('id') == $modx->getOption('site_start'))
-{
+if (!$showBreadCrumbAtHome && $modx->resource->get('id') == $modx->getOption('site_start')) {
     return '';
 }
 
-// We get all the crumbs
+// We get all the other crumbs
 $crumbs = array();
 $crumbsCount = 0;
 $resourceId = $to;
-while($resourceId != $from && $crumbsCount < $maxCrumbs)
+while ($resourceId != $from && $crumbsCount < $maxCrumbs)
 {
     $resource = $modx->getObject('modResource', $resourceId);
 
     // We check the conditions to show crumb
-    if(
-        (($resourceId == $modx->getOption('site_start') && $showHomeCrumb) || $resourceId != $modx->getOption('site_start'))  // ShowHomeCrumb
-        && (($resource->get('hidemenu') && $showHidden) || !$resource->get('hidemenu'))                                     // ShowHidden
-        && (($resource->get('isfolder') && $showContainer) || !$resource->get('isfolder'))                                  // ShowContainer
-        && ((!$resource->get('published') && $showUnPub) || $resource->get('published'))                                    // UnPub
-        && (($resourceId == $currentResourceId && $showCurrentCrumb) || $resourceId != $currentResourceId)  // ShowCurrent
-    )
-    {
+    if (
+        $resourceId != $modx->getOption('site_start')                                                                           // ShowHomeCrumb
+        && (($resource->get('hidemenu') && $showHidden) || !$resource->get('hidemenu'))                                         // ShowHidden
+        && (($resource->get('isfolder') && $showContainer) || !$resource->get('isfolder'))                                      // ShowContainer
+        && ((!$resource->get('published') && $showUnPub) || $resource->get('published'))                                        // UnPub
+        && (($resourceId == $currentResourceId && $showCurrentCrumb) || $resourceId != $currentResourceId)                      // ShowCurrent
+        && !in_array($resourceId, $exclude)                                                                                     // Excluded resources
+    ) {
         // If is LTR direction, we push resource at the beginning of the array
-        if($direction == 'ltr')
-        {
+        if ($direction == 'ltr') {
             array_unshift($crumbs, $resource);
         }
         // Else we push it at the end
-        else
-        {
+        else {
             $crumbs[] = $resource;
         }
 
@@ -153,11 +113,26 @@ while($resourceId != $from && $crumbsCount < $maxCrumbs)
     $resourceId = $resource->get('parent');
 }
 
+// Add home crumb
+if ($showHomeCrumb) {
+    $resource = $modx->getObject('modResource', $modx->getOption('site_start'));
+    if ($direction == 'ltr') {
+        array_unshift($crumbs, $resource);
+    } else {
+        $crumbs[] = $resource;
+    }
+}
+
 // We build the output of crumbs
 foreach($crumbs as $key => $resource)
 {
+    // Home crumb tpl ?
+    if ($resource->get('id') == $modx->getOption('site_start'))
+    {
+        $tpl = $homeCrumbTpl;
+    }
     // Current crumb tpl ?
-    if($showCurrentCrumb && ($resource->get('id') == $currentResourceId))
+    elseif ($showCurrentCrumb && ($resource->get('id') == $currentResourceId))
     {
         $tpl = $currentCrumbTpl;
     }
@@ -170,51 +145,41 @@ foreach($crumbs as $key => $resource)
         $tpl = $categoryCrumbTpl;
     }
     // or default crumb tpl ?
-    else
-    {
+    else {
         $tpl = $linkCrumbTpl;
     }
 
     // Placeholders
     $placeholders = $resource->toArray();
-    if($resource->get('class_key') == 'modWebLink' && $useWebLinkUrl)
-    {
-        if(is_numeric($resource->get('content')))
-        {
+    if ($resource->get('class_key') == 'modWebLink' && $useWebLinkUrl) {
+        if (is_numeric($resource->get('content'))) {
             $link = $modx->makeUrl($resource->get('content'), '', '', $scheme);
-        }
-        else
-        {
+        } else {
             $link = $resource->get('content');
         }
-    }
-    else
-    {
+    } else {
         $link = $modx->makeUrl($resource->get('id'), '', '', $scheme);
     }
     $placeholders = array_merge($resource->toArray(), array('link' => $link));
 
     // Output
-    $output .= processTpl($tpl, $placeholders);
+    $output .= parseTpl($tpl, $placeholders);
 }
 
 // We add the max delimiter to the crumbs output, if the max limit was reached
-if($crumbsCount == $maxCrumbs)
-{
+if ($crumbsCount == $maxCrumbs) {
     // If is LTR direction, we push the max delimiter at the beginning of the crumbs
-    if($direction == 'ltr')
-    {
-        $output = processTpl($maxCrumbTpl).$output;
+    if ($direction == 'ltr') {
+        $output = parseTpl($maxCrumbTpl).$output;
     }
     // Else we push it at the end
-    else
-    {
-        $output .= processTpl($maxCrumbTpl);
+    else {
+        $output .= parseTpl($maxCrumbTpl);
     }
 }
 
 // We build the breadcrumb output
-$output = processTpl($containerTpl, array(
+$output = parseTpl($containerTpl, array(
     'crumbs' => $output,
 ));
 

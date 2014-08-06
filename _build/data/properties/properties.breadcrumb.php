@@ -3,7 +3,7 @@
 /**
  * Default properties for the BreadCrumb snippet
  * @author Benjamin Vauchel <contact@omycode.fr>
- * 27/8/12
+ * 31/07/14
  *
  * @package breadcrumb
  * @subpackage build
@@ -79,7 +79,7 @@ $properties = array(
         'desc' => 'breadcrumb_snippet_showhomecrumb_desc',
         'type' => 'combo-boolean',
         'options' => '',
-        'value' => '0',
+        'value' => '1',
         'lexicon' => 'breadcrumb:properties',
     ),
     array(
@@ -122,7 +122,15 @@ $properties = array(
         'desc' => 'breadcrumb_snippet_containertpl_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => '@CODE:<ul id="breadcrumb" itemprop="breadcrumb"><li><a href="[[++site_url]]">[[++site_name]]</a></li>[[+crumbs]]</ul>',
+        'value' => '@INLINE <ul id="breadcrumb" itemprop="breadcrumb">[[+crumbs]]</ul>',
+        'lexicon' => 'breadcrumb:properties',
+    ),
+    array(
+        'name' => 'homeCrumbTpl',
+        'desc' => 'breadcrumb_snippet_homecrumbtpl_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '@INLINE <li><a href="[[+link]]">[[+pagetitle]]</a></li>',
         'lexicon' => 'breadcrumb:properties',
     ),
     array(
@@ -130,7 +138,7 @@ $properties = array(
         'desc' => 'breadcrumb_snippet_currentcrumbtpl_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => '@CODE:<li>[[+pagetitle]]</li>',
+        'value' => '@INLINE <li>[[+pagetitle]]</li>',
         'lexicon' => 'breadcrumb:properties',
     ),
     array(
@@ -138,7 +146,7 @@ $properties = array(
         'desc' => 'breadcrumb_snippet_linkcrumbtpl_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => '@CODE:<li><a href="[[+link]]">[[+pagetitle]]</a></li>',
+        'value' => '@INLINE <li><a href="[[+link]]">[[+pagetitle]]</a></li>',
         'lexicon' => 'breadcrumb:properties',
     ),
     array(
@@ -146,7 +154,7 @@ $properties = array(
         'desc' => 'breadcrumb_snippet_categorycrumbtpl_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => '@CODE:<li><a href="[[+link]]">[[+pagetitle]]</a></li>',
+        'value' => '@INLINE <li><a href="[[+link]]">[[+pagetitle]]</a></li>',
         'lexicon' => 'breadcrumb:properties',
     ),
     array(
@@ -154,7 +162,7 @@ $properties = array(
         'desc' => 'breadcrumb_snippet_maxcrumbtpl_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => '@CODE:<li>...</li>',
+        'value' => '@INLINE <li>...</li>',
         'lexicon' => 'breadcrumb:properties',
     ),
  );
