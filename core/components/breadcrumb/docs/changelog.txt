@@ -1,5 +1,9 @@
 Changelog for BreadCrumb
 
+BreadCrumb 1.4.1-pl
+-------------------
+Fix currentCrumbTpl bug
+
 BreadCrumb 1.4.0-pl
 -------------------
 Simplify home crumb usage. Now, the &showHomeCrumb=1 property adds the home crumb at the start of breadcrumb and &showHomeCrumb=0 hides it if present.

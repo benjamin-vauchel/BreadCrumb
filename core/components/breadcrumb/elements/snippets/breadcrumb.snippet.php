@@ -19,8 +19,8 @@
  * @package breadcrumb
  * @author Benjamin Vauchel <contact@omycode.fr>
  *
- * @version Version 1.4.0 pl
- * 31/07/14
+ * @version Version 1.4.1 pl
+ * 07/08/14
  *
  * Breadcrumb is a snippet for MODx Revolution, inspired by the Jared's BreadCrumbs snippet.
  * It will create a breadcrumb navigation for the current resource or a specific resource.
@@ -52,7 +52,7 @@
 
 // Script Properties
 $from                 = !empty($from) ? $from : $modx->getOption('from', $scriptProperties, 0, true, true);
-$to                   = !empty($to) ? $to : $modx->getOption('to', $scriptProperties, $modx->resource->get('id'), true);
+$to                   = $currentResourceId = !empty($to) ? $to : $modx->getOption('to', $scriptProperties, $modx->resource->get('id'), true);
 $exclude              = !empty($exclude) ? explode(',', $exclude) : array();
 $maxCrumbs            = !empty($maxCrumbs) ? abs(intval($maxCrumbs)) : $modx->getOption('maxCrumbs', $scriptProperties, 100, true);
 $showHidden           = isset($showHidden) ? (bool)$showHidden : (bool)$modx->getOption('showHidden', $scriptProperties, true, true);

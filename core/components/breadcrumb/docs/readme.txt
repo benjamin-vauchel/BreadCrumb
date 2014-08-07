@@ -1,8 +1,8 @@
 --------------------
 Snippets: BreadCrumb
 --------------------
-Version: 1.4.0-pl
-Released: July 31, 2014
+Version: 1.4.1-pl
+Released: August 07, 2014
 Since: November 13, 2011
 Author: Benjamin Vauchel <contact@omycode.fr>
 
