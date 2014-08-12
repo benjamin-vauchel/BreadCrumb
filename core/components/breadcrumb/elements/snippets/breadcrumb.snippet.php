@@ -19,8 +19,8 @@
  * @package breadcrumb
  * @author Benjamin Vauchel <contact@omycode.fr>
  *
- * @version Version 1.4.1 pl
- * 07/08/14
+ * @version Version 1.4.2 pl
+ * 12/08/14
  *
  * Breadcrumb is a snippet for MODx Revolution, inspired by the Jared's BreadCrumbs snippet.
  * It will create a breadcrumb navigation for the current resource or a specific resource.
@@ -72,7 +72,7 @@ $categoryCrumbTpl     = !empty($categoryCrumbTpl) ? $categoryCrumbTpl : $modx->g
 $maxCrumbTpl          = !empty($maxCrumbTpl) ? $maxCrumbTpl : $modx->getOption('maxCrumbTpl', $scriptProperties, '@INLINE <li>...</li>');
 
 // include parseTpl
-include_once $modx->getOption('getresources.core_path',null,$modx->getOption('core_path').'components/getresources/').'include.parsetpl.php';
+include_once $modx->getOption('breadcrumb.core_path',null,$modx->getOption('core_path').'components/breadcrumb/includes/').'include.parsetpl.php';
 
 // Output variable
 $output = '';
