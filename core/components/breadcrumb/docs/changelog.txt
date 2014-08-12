@@ -1,5 +1,9 @@
 Changelog for BreadCrumb
 
+BreadCrumb 1.4.2-pl
+-------------------
+Fix a dependency bug. getResource package is no longer needed.
+
 BreadCrumb 1.4.1-pl
 -------------------
 Fix currentCrumbTpl bug
