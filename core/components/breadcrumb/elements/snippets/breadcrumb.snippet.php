@@ -114,8 +114,7 @@ while ($resourceId != $from && $crumbsCount < $maxCrumbs)
 }
 
 // Add home crumb
-if ($showHomeCrumb) {
-    $resource = $modx->getObject('modResource', $modx->getOption('site_start'));
+if ($showHomeCrumb && $resource = $modx->getObject('modResource', $modx->getOption('site_start'))) {
     if ($direction == 'ltr') {
         array_unshift($crumbs, $resource);
     } else {
