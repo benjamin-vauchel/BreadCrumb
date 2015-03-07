@@ -1,5 +1,10 @@
 Changelog for BreadCrumb
 
+
+BreadCrumb 1.4.3-pl
+-------------------
+Fix a showHomeCrumb bug when home is unpublished or deleted
+
 BreadCrumb 1.4.2-pl
 -------------------
 Fix a dependency bug. getResource package is no longer needed.
