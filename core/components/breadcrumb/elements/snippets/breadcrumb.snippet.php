@@ -51,6 +51,7 @@
  */
 
 // Script Properties
+$fauxParentId         = !empty($fauxParentId) ? $fauxParentId : $modx->getOption('fauxParentId', $scriptProperties, 0, false);
 $from                 = !empty($from) ? $from : $modx->getOption('from', $scriptProperties, 0, true, true);
 $to                   = $currentResourceId = !empty($to) ? $to : $modx->getOption('to', $scriptProperties, $modx->resource->get('id'), true);
 $exclude              = !empty($exclude) ? explode(',', $exclude) : array();
@@ -109,10 +110,16 @@ while ($resourceId != $from && $crumbsCount < $maxCrumbs)
         else {
             $crumbs[] = $resource;
         }
+        
+        //faux parent path
+        $doFauxParent = false;
+        if($crumbsCount == 0 && $fauxParentId){
+            $doFauxParent = true;
+        }
 
         $crumbsCount++;
     }
-    $resourceId = $resource->get('parent');
+    $resourceId = !$doFauxParent ? $resource->get('parent') : $fauxParentId;
 }
 
 // Add home crumb
