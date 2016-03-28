@@ -50,6 +50,10 @@
  * @property maxCrumbTpl - (string) Max delimiter crumb template for BreadCrumb; [Default value : BreadCrumbMaxCrumbTpl].
  */
 
+// Added by Adam Smith (enminc)
+$fauxParentId         = !empty($fauxParentId) ? $fauxParentId : $modx->getOption('fauxParentId', $scriptProperties, 0, false);
+
+
 // Script Properties
 $from                 = !empty($from) ? $from : $modx->getOption('from', $scriptProperties, 0, true, true);
 $to                   = $currentResourceId = !empty($to) ? $to : $modx->getOption('to', $scriptProperties, $modx->resource->get('id'), true);
@@ -110,9 +114,16 @@ while ($resourceId != $from && $crumbsCount < $maxCrumbs)
             $crumbs[] = $resource;
         }
 
+        //faux parent path
+        $doFauxParent = false;
+        if($crumbsCount === 0 && is_numeric($fauxParentId)){
+            $doFauxParent = true;
+        }
+
         $crumbsCount++;
     }
-    $resourceId = $resource->get('parent');
+
+    $resourceId = !$doFauxParent ? $resource->get('parent') : $fauxParentId;
 }
 
 // Add home crumb
@@ -141,7 +152,7 @@ foreach($crumbs as $key => $resource)
     elseif ($resource->get('isfolder')
         && ( $resource->get('template') == 0
             || strpos($resource->get('link_attributes'), 'rel="category"') !== false
-            )
+        )
     ) {
         $tpl = $categoryCrumbTpl;
     }
@@ -185,5 +196,3 @@ $output = parseTpl($containerTpl, array(
 ));
 
 return $output;
-
-?>
