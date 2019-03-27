@@ -125,6 +125,7 @@ if ($showHomeCrumb && $resource = $modx->getObject('modResource', $modx->getOpti
 }
 
 // We build the output of crumbs
+$position = 0;
 foreach($crumbs as $key => $resource)
 {
     // Home crumb tpl ?
@@ -161,7 +162,7 @@ foreach($crumbs as $key => $resource)
     } else {
         $link = $modx->makeUrl($resource->get('id'), '', '', $scheme);
     }
-    $placeholders = array_merge($resource->toArray(), array('link' => $link));
+    $placeholders = array_merge($resource->toArray(), array('link' => $link, 'position' => ++$position));
 
     // Output
     $output .= parseTpl($tpl, $placeholders);
